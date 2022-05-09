@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import homeData from '../../assets/mockdata/home.json';
+import { ModalPage } from '../modal/modal.page';
+import { modalEnterAnimation, modalLeaveAnimation } from '../modal-animation';
 import { DrawerService } from '../services/drawer.service';
-
+ 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-
+ 
   sections = homeData.sections;
   spotlight = homeData.spotlight;
  
@@ -22,12 +24,19 @@ export class Tab1Page {
   constructor(private modalCtrl: ModalController, private drawerService: DrawerService) {
   }
  
-  openInfo(series) {
-    
-  }
- 
   async openCategories() {
+    const modal = await this.modalCtrl.create({
+      component: ModalPage,
+      cssClass: 'transparent-modal',
+      //enterAnimation: modalEnterAnimation,
+      //leaveAnimation: modalLeaveAnimation
+    });
  
+    await modal.present();
   }
-
+ 
+  openInfo(series) {
+    this.drawerService.openDrawer(series.title);
+  }
+ 
 }
